@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title Calendar
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    .container
+      nav.navbar.fixed-top.navbar-expand-sm.navbar-dark.bg-primary  
+        button.navbar-toggler[type="button" data-toggle="collapse" data-target="#collapsingNavbarLg"]
+          span.navbar-toggler-icon
+        #collapsingNavbarLg.navbar-collapse.collapse
+          ul.navbar-nav
+            li.nav.item.nav-link
+              - if current_user
+                =<> current_user.email
+                li.nav-item
+                  = link_to 'Home', root_path, class: 'nav-link'
+                li.nav-item
+                  = link_to 'Edit profile', edit_user_registration_path(current_user.id), class: 'nav-link'
+                li.nav-item
+                  = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'nav-link'
+              - else
+                li.nav-item
+                  = link_to "Sign up", new_registration_path(resource_name), class: 'nav-link'
+                li.nav-item
+                  = link_to "Log in", new_session_path(resource_name), class: 'nav-link'
+      p.notice= notice
+      p.alert= alert
+      = yield
