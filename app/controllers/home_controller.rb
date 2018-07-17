@@ -3,5 +3,7 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!
 
-  def index; end
+  def index
+    @events = Event.all
+  end
 end
