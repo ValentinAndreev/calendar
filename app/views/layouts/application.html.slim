@@ -26,7 +26,7 @@ html
                 li.nav-item
                   = link_to 'All events', events_path, class: 'nav-link'
                 li.nav-item
-                  = link_to 'Only my events', '#', class: 'nav-link'
+                  = link_to 'My events', my_events_path, class: 'nav-link'
               - else
                 li.nav-item
                   = link_to "Sign up", new_registration_path(resource_name), class: 'nav-link'

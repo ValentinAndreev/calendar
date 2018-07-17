@@ -1,6 +1,10 @@
 br
-= month_calendar events: @events do |date, events|
-  = date
-  - events.each do |event|
-    div
-      = link_to event.name, event
+h5.text-center = message
+= month_calendar events: events do |date, events|
+  .text-center
+    - if events.size == 0
+      = date
+    - else
+      = link_to date, '#'
+      br
+      | Events: #{events.size}
