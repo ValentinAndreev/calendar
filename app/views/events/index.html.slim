@@ -1,0 +1,6 @@
+br
+= month_calendar events: @events do |date, events|
+  = date
+  - events.each do |event|
+    div
+      = link_to event.name, event
