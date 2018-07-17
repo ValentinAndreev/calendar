@@ -12,6 +12,8 @@ h5.text-center = message
     - if events.size == 0
       = date
     - else
-      = link_to date, list_events_path(events: events)
+      = link_to date, list_events_path(start_time: date)
       br
       | Events: #{events.size}
+    br
+    = link_to '+', new_event_path(start_time: date)

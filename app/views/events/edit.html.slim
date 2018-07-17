@@ -1,0 +1,11 @@
+h5 Edit event
+= form_with model: @event, local: true do |form|
+  = form.label :start_time
+  = form.date_select :start_time
+  br
+  = form.label :event_name
+  = form.text_field :name, as: :text, required: true, class: 'form-control'
+  = form.label :event_text
+  = form.text_field :text, as: :text, required: true, class: 'form-control'
+  = form.hidden_field :start_time, value: params[:start_time]
+  = form.button :Submit, class: "btn btn-link"

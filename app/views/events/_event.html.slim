@@ -3,5 +3,9 @@ hr/
 br
 | Event name: #{event.name}
 br
-= event.text
+| Event text: #{event.text}
+br
+- if event.user == current_user
+  = link_to 'Edit event', edit_event_path(event)
+  =< link_to 'Delete event', event_path(event), method: :delete, data: {confirm: 'Are you sure?'}
 hr/

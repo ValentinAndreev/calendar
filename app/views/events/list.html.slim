@@ -1,3 +1,4 @@
 br
 h5.text-center Events for date: #{@date}
 = render @events
+= link_to 'Add event', new_event_path(start_time: @events.first.start_time)

@@ -1,13 +1,39 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
+  before_action :find_event, only: %i[edit update destroy]
+
   def index
     events = Event.all
     render :index, locals: { events: events, message: 'All events' }
   end
 
-  def show
-    @event = Event.find(params[:id])
+  def new
+    @event = Event.new
+  end
+
+  def edit; end
+
+  def create
+    @event = Event.new(event_params.merge(user_id: current_user.id))
+    if @event.save
+      redirect_to list_events_path(start_time: time_format(@event))
+    else
+      render :new
+    end
+  end
+
+  def update
+    if @event.update(event_params.merge(start_time: @last_time))
+      redirect_to list_events_path(start_time: time_format(@event))
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @event.destroy
+    redirect_to list_events_path(start_time: time_format(@event))
   end
 
   def my
@@ -16,8 +42,8 @@ class EventsController < ApplicationController
   end
 
   def list
-    @events = Event.where(id: params[:events])
-    @date = @events.first.start_time.strftime('%d-%m-%Y')
+    @date = params[:start_time]
+    @events = Event.where(start_time: @date)
   end
 
   def date
@@ -36,5 +62,14 @@ class EventsController < ApplicationController
 
   def form_date(date)
     date['year'] + '-' + date['month'] + '-' + date['day']
+  end
+
+  def find_event
+    @event = Event.find(params[:id])
+    @list_time = @event.start_time
+  end
+
+  def time_format(event)
+    event.start_time.strftime('%d-%m-%Y')
   end
 end
