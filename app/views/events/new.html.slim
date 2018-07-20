@@ -1,5 +1,8 @@
 h5 New event
 = form_with model: @event, local: true do |form|
+  = form.label :periodicity_of_the_event
+  = form.select :recurrent, Event::RECURRENT, { class: "form-control" }
+  br/
   = form.label :event_name
   = form.text_field :name, as: :text, required: true, class: 'form-control'
   = form.label :event_text

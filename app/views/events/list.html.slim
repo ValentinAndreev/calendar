@@ -1,4 +1,8 @@
 br
-h5.text-center Events for date: #{@date}
-= render @events
-= link_to 'Add event', new_event_path(start_time: @events.first.start_time)
+h5.text-center = message
+= link_to 'To calendar', events_path(start_date: date)
+=< link_to 'Add event', new_event_path(start_time: events.first.start_time)
+=< link_to 'All events(day)', list_events_path(start_time: date)
+=< link_to 'My events(day)', my_list_events_path(start_time: date)
+hr/
+= render events

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_17_072035) do
+ActiveRecord::Schema.define(version: 2018_07_18_053600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2018_07_17_072035) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "text"
+    t.string "recurrent", default: "none"
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 

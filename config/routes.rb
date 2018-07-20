@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     collection do
       get 'my'
       get 'list'
+      get 'my_list'
     end
     get 'date', on: :collection
   end

@@ -1,7 +1,7 @@
 br
 h5.text-center = message
 = form_with url: '/events/date', method: :get, local: true, class: "form-inline" do |form|
-  = select_date()
+  = select_date Date.today, prefix: :start_date
   = form.radio_button(:events_type, 'All events')
   = form.label 'All events'
   = form.radio_button(:events_type, 'My events')
@@ -9,11 +9,13 @@ h5.text-center = message
   = form.submit 'Move to date/reorder'
 = month_calendar events: events do |date, events|
   .text-center
-    - if events.size == 0
+    - if date.to_s[0..6] != start_date.to_s[0..6]
       = date
-    - else
+    - elsif events.size > 0
       = link_to date, list_events_path(start_time: date)
       br
       | Events: #{events.size}
-    br
-    = link_to '+', new_event_path(start_time: date)
+    - else
+      = date
+      br
+      = link_to 'Add', new_event_path(start_time: date)
