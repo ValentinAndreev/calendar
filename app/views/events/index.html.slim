@@ -9,13 +9,8 @@ h5.text-center = message
   = form.submit 'Move to date/reorder'
 = month_calendar events: events do |date, events|
   .text-center
-    - if date.to_s[0..6] != start_date.to_s[0..6]
-      = date
-    - elsif events.size > 0
-      = link_to date, list_events_path(start_time: date)
-      br
-      | Events: #{events.size}
-    - else
-      = date
-      br
-      = link_to 'Add', new_event_path(start_time: date)
+    = present('Events', local_assigns).another_month(date)
+    = present('Events', local_assigns).date_link(date, events)
+    == present('Events', local_assigns).event_count(date, events)
+    == present('Events', local_assigns).current_month(date, events)
+    = present('Events', local_assigns).add_link(date)

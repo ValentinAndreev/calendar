@@ -23,6 +23,8 @@ gem 'slim'
 #Common
 gem 'devise'
 gem 'simple_calendar', '~> 2.0'
+gem 'trailblazer-rails'
+gem 'trailblazer-operation'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

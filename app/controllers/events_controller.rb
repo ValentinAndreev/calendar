@@ -41,21 +41,19 @@ class EventsController < ApplicationController
   end
 
   def my
-    render_events(Event.where(user: current_user), 'My events')
+    render_events(Event.where(user: current_user), 'My events ')
   end
 
   def list
-    date = params[:start_time]
-    render_list(date, Event.where(start_time: date), "All events: #{date}")
+    render_recurrent(Event.all, 'All events ')
   end
 
   def my_list
-    date = params[:start_time]
-    render_list(date, Event.where(start_time: date, user_id: current_user.id), "My events: #{date}")
+    render_recurrent(Event.where(user: current_user), 'My events ')
   end
 
   def date
-    date = FormDate.new.call(params[:start_date])
+    date = FormattingDate.call(start_date: params[:start_date])['date'].to_s
     if params[:events_type] == 'All events'
       redirect_to events_path(start_date: date)
     else
@@ -73,15 +71,19 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @list_time = @event.start_time
   end
-
+  
   def render_events(events, message)
-    date = FormDate.new.call(params[:start_date])
-    recurrent = RecurrentEventService.new.call(events, date)
-    render :index, locals: { events: events, recurrent: recurrent, message: message, start_date: date }
+    date = FormattingDate.call(start_date: params[:start_date])['date'].to_s
+    render :index, locals: { recurrents: recurrents(events, date), message: message, date: date, events: events }
   end
 
-  def render_list(date, events, message)
-    recurrent = RecurrentEventService.new.find_by_date(events, date[0..9])
-    render :list, locals: { events: events, recurrent: recurrent, message: message, date: date }
+  def render_recurrent(events, message)
+    date = params[:start_time].to_s[0..9]
+    render :list, locals: { recurrents: RecurrentEventService.new.find_by_date(recurrents(events, date), date),
+                            message: message, date: date, events: events.where(start_time: date) }
+  end
+
+  def recurrents(events, date)
+    @recurrents ||= RecurrentEventService.new.call(events, date)
   end
 end

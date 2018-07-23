@@ -1,8 +1,18 @@
 br
-h5.text-center = message
+h5.text-center = message + date
 = link_to 'To calendar', events_path(start_date: date)
-=< link_to 'Add event', new_event_path(start_time: events.first.start_time)
+=< link_to 'Add event', new_event_path(start_time: date)
 =< link_to 'All events(day)', list_events_path(start_time: date)
 =< link_to 'My events(day)', my_list_events_path(start_time: date)
-hr/
+hr
 = render events
+== present('Recurrent', local_assigns).recurrent_title(date)
+- present('Recurrent').recurrent_date(local_assigns[:recurrents], date).each do |element|
+  == present('Recurrent').event_creator(element)
+  == present('Recurrent').event_name(element)
+  == present('Recurrent').periodicity(element)
+  == present('Recurrent').text(element)
+  == present('Recurrent').base_start(element)
+  br
+  == present('Recurrent').event_link(element)
+  hr

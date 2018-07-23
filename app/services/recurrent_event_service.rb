@@ -2,19 +2,19 @@
 
 class RecurrentEventService
   def call(events, date)
+    date = date.to_date
     daily_events(events, date) + weekly_events(events, date) + monthly_events(events, date) + annually_events(events, date)
   end
 
-  def find_by_date(events, date)
-    recurrent = call(events, date)
-    recurrent.find_all { |f| f[:start_time] == date }
+  def find_by_date(recurrents, date)
+    recurrents.find_all { |f| f[:start_time] == date.to_s[0..9] }
   end
+
 
   private
 
   def daily_events(events, date)
     recurrent_events = []
-    date = date.to_date
     recurrent = find_events(events, 'daily', date.end_of_month)
     recurrent.each do |event|
       daily_start(event, date).upto(date.end_of_month) do |day|
@@ -38,7 +38,6 @@ class RecurrentEventService
 
   def monthly_events(events, date)
     recurrent_events = []
-    date = date.to_date
     recurrent = find_events(events, 'monthly', date.end_of_month)
     recurrent.each do |event|
       recurrent_events << event_params(event, 'monthly', event.start_time.change(year: date.year, month: date.month)) if check_month(event, date)
@@ -48,7 +47,6 @@ class RecurrentEventService
 
   def annually_events(events, date)
     recurrent_events = []
-    date = date.to_date
     recurrent = find_events(events, 'annually', date.end_of_month)
     recurrent.each do |event|
       recurrent_events << event_params(event, 'annually', event.start_time.change(year: date.year)) if check_year(event, date)
@@ -77,6 +75,7 @@ class RecurrentEventService
   end
 
   def event_params(event, period, day)
-    { id: event.id, start_time: day.to_s[0..9], text: event.text, recurrent: period, user_id: event.user_id, name: event.name }
+    { base_start: event.start_time, start_time: day.to_s[0..9], text: event.text, recurrent: period,
+      username: "#{event.username} #{event.email}", name: event.name }
   end
 end

@@ -1,12 +1,7 @@
-| Creator: #{event.username} #{event.email}
-br
-| Event name: #{event.name}
-br
-| Periodicity of the event: #{event.recurrent}
-br
-| Event text: #{event.text}
-br
-- if event.user == current_user
-  = link_to 'Edit event', edit_event_path(event)
-  =< link_to 'Delete event', event_path(event), method: :delete, data: {confirm: 'Are you sure?'}
-hr/
+== present('Event').event_creator(event)
+== present('Event').event_name(event)
+== present('Event').periodicity(event)
+== present('Event').text(event)
+= present('Event').edit_link(event, current_user)
+=< present('Event').delete_link(event, current_user)
+hr
