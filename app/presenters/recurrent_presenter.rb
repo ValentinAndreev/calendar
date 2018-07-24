@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # Presenter for recurrent event
 class RecurrentPresenter < BasePresenter
   def initialize(local_assigns)
-    @recurrents = local_assigns[:recurrents] if local_assigns
+    @recurrents = recurrent_date(local_assigns[:recurrents], local_assigns[:date]) if local_assigns
   end
 
   def event_creator(event)
@@ -20,8 +22,8 @@ class RecurrentPresenter < BasePresenter
     "Event text: #{event[:text]} <br/>"
   end
 
-  def recurrent_title(date)
-    "<h5 align='center'>Recurrent events</h5>" if @recurrents.size > 0
+  def recurrent_title
+    "<h5 align='center'>Recurrent events</h5>" unless @recurrents.empty?
   end
 
   def base_start(recurrent)

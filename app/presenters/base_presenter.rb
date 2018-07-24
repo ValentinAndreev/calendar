@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Base presenter
 class BasePresenter
   include ActionView::Helpers::UrlHelper

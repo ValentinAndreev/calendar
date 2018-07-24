@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 # Presenter for event
 class EventPresenter < BasePresenter
-  def initialize(local_assigns)
-  end
+  def initialize(local_assigns); end
 
   def event_creator(event)
     "Creator: #{event.username} #{event.email} <br/>"
@@ -24,6 +25,6 @@ class EventPresenter < BasePresenter
   end
 
   def delete_link(event, user)
-    link_to 'Delete event', routes.event_path(event), method: :delete, data: {confirm: 'Are you sure?'} if user.id == event.user_id
+    link_to 'Delete event', routes.event_path(event), method: :delete, data: { confirm: 'Are you sure?' } if user.id == event.user_id
   end
 end

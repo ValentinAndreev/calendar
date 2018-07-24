@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 # Presenter for events
 class EventsPresenter < BasePresenter
   def initialize(local_assigns)
-    if local_assigns
-      @date = local_assigns[:date]
-      @recurrents = local_assigns[:recurrents]
-    end
+    return unless local_assigns
+    @date = local_assigns[:date]
+    @recurrents = local_assigns[:recurrents]
   end
 
   def another_month(date)
@@ -12,19 +13,18 @@ class EventsPresenter < BasePresenter
   end
 
   def current_month(date, events)
-    "#{date} <br/>" if !another_month(date) && events.size + recurrent_date(@recurrents, date).size == 0
+    return unless !another_month(date) && (events.size + recurrent_date(@recurrents, date).size).zero?
+    "#{date} <br/>"
   end
 
   def event_count(date, events)
-    if another_month(date) != date && events.size + recurrent_date(@recurrents, date).size > 0
-      "<br/> Events: #{events.size + recurrent_date(@recurrents, date).size} <br/>"
-    end
+    return unless another_month(date) != date && (events.size + recurrent_date(@recurrents, date).size).positive?
+    "<br/> Events: #{events.size + recurrent_date(@recurrents, date).size} <br/>"
   end
 
   def date_link(date, events)
-    if another_month(date) != date && events.size + recurrent_date(@recurrents, date).size > 0
-      link_to date, routes.list_events_path(start_time: date)
-    end
+    return unless another_month(date) != date && (events.size + recurrent_date(@recurrents, date).size).positive?
+    link_to date, routes.list_events_path(start_time: date)
   end
 
   def add_link(date)

@@ -6,7 +6,7 @@ h5.text-center = message + date
 =< link_to 'My events(day)', my_list_events_path(start_time: date)
 hr
 = render events
-== present('Recurrent', local_assigns).recurrent_title(date)
+== present('Recurrent', local_assigns).recurrent_title
 - present('Recurrent').recurrent_date(local_assigns[:recurrents], date).each do |element|
   == present('Recurrent').event_creator(element)
   == present('Recurrent').event_name(element)

@@ -71,7 +71,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @list_time = @event.start_time
   end
-  
+
   def render_events(events, message)
     date = FormattingDate.call(start_date: params[:start_date])['date'].to_s
     render :index, locals: { recurrents: recurrents(events, date), message: message, date: date, events: events }
@@ -79,8 +79,7 @@ class EventsController < ApplicationController
 
   def render_recurrent(events, message)
     date = params[:start_time].to_s[0..9]
-    render :list, locals: { recurrents: RecurrentEventService.new.find_by_date(recurrents(events, date), date),
-                            message: message, date: date, events: events.where(start_time: date) }
+    render :list, locals: { recurrents: recurrents(events, date), message: message, date: date, events: events.where(start_time: date) }
   end
 
   def recurrents(events, date)
