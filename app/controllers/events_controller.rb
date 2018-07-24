@@ -83,6 +83,6 @@ class EventsController < ApplicationController
   end
 
   def recurrents(events, date)
-    @recurrents ||= RecurrentEventService.new.call(events, date)
+    @recurrents ||= Recurrents::AllRecurents.call(events: events, date: date.to_date)['recurrents']
   end
 end

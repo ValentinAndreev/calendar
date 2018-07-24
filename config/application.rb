@@ -20,7 +20,6 @@ Bundler.require(*Rails.groups)
 module Calendar
   class Application < Rails::Application
     config.load_defaults 5.2
-    config.autoload_paths += Dir[ Rails.root.join('app', 'services', '**/') ]
     config.autoload_paths += Dir[ Rails.root.join('app', 'presenters', '**/') ]
 
     config.generators do |generate|

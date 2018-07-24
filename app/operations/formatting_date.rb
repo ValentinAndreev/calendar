@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class FormattingDate < Trailblazer::Operation
-  step :form_date!
+  step :form_date
 
   private
 
-  def form_date!(options, start_date:, **)
+  def form_date(options, start_date:, **)
     options['date'] = if start_date.respond_to?(:to_date)
       start_date.to_date
     elsif start_date
