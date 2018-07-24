@@ -23,7 +23,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    if @event.update(event_params.merge(start_time: @last_time))
+    if @event.update(event_params)
       redirect_to list_events_path(start_time: @event.start_time)
     else
       render :edit
@@ -69,7 +69,6 @@ class EventsController < ApplicationController
 
   def find_event
     @event = Event.find(params[:id])
-    @list_time = @event.start_time
   end
 
   def render_events(events, message)
