@@ -41,15 +41,15 @@ class EventsController < ApplicationController
   end
 
   def my
-    render_events(Event.where(user: current_user), 'My events ')
+    render_events(Event.where(user: current_user), 'My events')
   end
 
   def list
-    render_recurrent(Event.all, 'All events ')
+    render_recurrent(Event.all, 'All events')
   end
 
   def my_list
-    render_recurrent(Event.where(user: current_user), 'My events ')
+    render_recurrent(Event.where(user: current_user), 'My events')
   end
 
   def date
@@ -72,13 +72,17 @@ class EventsController < ApplicationController
   end
 
   def render_events(events, message)
-    date = FormattingDate.call(start_date: params[:start_date])['date'].to_s
-    render :index, locals: { recurrents: recurrents(events, date), message: message, date: date, events: events }
+    date = FormattingDate.call(start_date: params[:start_date])['date']
+    render :index, locals: { recurrents: recurrents(events, date),
+                             message: "#{message}: #{date.strftime('%B')}",
+                             date: date.to_s, events: events }
   end
 
   def render_recurrent(events, message)
-    date = params[:start_time].to_s[0..9]
-    render :list, locals: { recurrents: recurrents(events, date), message: message, date: date, events: events.where(start_time: date) }
+    date = params[:start_time]
+    render :list, locals: { recurrents: recurrents(events, date),
+                            message: "#{message}: #{date[0..9]}",
+                            date: date[0..9], events: events.where(start_time: date) }
   end
 
   def recurrents(events, date)

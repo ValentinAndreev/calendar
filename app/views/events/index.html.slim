@@ -3,9 +3,9 @@ h5.text-center = message
 = form_with url: '/events/date', method: :get, local: true, class: "form-inline" do |form|
   = select_date Date.today, prefix: :start_date
   = form.radio_button(:events_type, 'All events')
-  = form.label 'All events'
+  = form.label 'All events of month'
   = form.radio_button(:events_type, 'My events')
-  = form.label 'My events'
+  = form.label 'Only my events'
   = form.submit 'Move to date/reorder'
 = month_calendar events: events do |date, events|
   .text-center

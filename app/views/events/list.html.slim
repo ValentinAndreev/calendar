@@ -1,5 +1,5 @@
 br
-h5.text-center = message + date
+h5.text-center = message
 = link_to 'To calendar', events_path(start_date: date)
 =< link_to 'Add event', new_event_path(start_time: date)
 =< link_to 'All events(day)', list_events_path(start_time: date)
