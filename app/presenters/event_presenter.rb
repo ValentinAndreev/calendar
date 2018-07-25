@@ -20,11 +20,9 @@ class EventPresenter < BasePresenter
     "Event text: #{event.text} <br/>"
   end
 
-  def edit_link(event, user)
-    link_to 'Edit event', routes.edit_event_path(event) if user.id == event.user_id
-  end
-
-  def delete_link(event, user)
-    link_to 'Delete event', routes.event_path(event), method: :delete, data: { confirm: 'Are you sure?' } if user.id == event.user_id
+  def edit_links(event, user)
+    return unless user.id == event.user_id
+    "#{link_to 'Edit event', routes.edit_event_path(event)} " \
+    "#{link_to 'Delete event', routes.event_path(event), method: :delete, data: { confirm: 'Are you sure?' }}"
   end
 end

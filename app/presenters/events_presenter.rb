@@ -13,21 +13,22 @@ class EventsPresenter < BasePresenter
   end
 
   def current_month(date, events)
-    return unless !another_month(date) && (events.size + recurrent_date(@recurrents, date).size).zero?
+    return unless !another_month(date) && events_day(events, date).zero?
     "#{date} <br/>"
   end
 
-  def event_count(date, events)
-    return unless another_month(date) != date && (events.size + recurrent_date(@recurrents, date).size).positive?
-    "<br/> Events: #{events.size + recurrent_date(@recurrents, date).size} <br/>"
-  end
-
-  def date_link(date, events)
-    return unless another_month(date) != date && (events.size + recurrent_date(@recurrents, date).size).positive?
-    link_to date, routes.list_events_path(start_time: date)
+  def date_event(date, events)
+    return unless another_month(date) != date && events_day(events, date).positive?
+    "#{link_to date, routes.list_events_path(start_time: date)} <br/> Events: #{events.size + recurrent_date(@recurrents, date).size} <br/>"
   end
 
   def add_link(date)
     link_to 'Add', routes.new_event_path(start_time: date) unless another_month(date)
+  end
+
+  private
+
+  def events_day(events, date)
+    events.size + recurrent_date(@recurrents, date).size
   end
 end

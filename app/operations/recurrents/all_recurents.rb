@@ -20,8 +20,11 @@ module Recurrents
     def weekly(options, events:, date:, **)
       recurrent = find_events(events, 'weekly', date.end_of_month)
       recurrent.each do |event|
-        (weekly_start(event, date)..(date.end_of_month)).step(7).each do |day|
-          options['recurrents'] << event_params(event, 'weekly', day) if event.start_time != day
+        current_date = weekly_start(event, date)
+        end_date = date.end_of_month + 1
+        while current_date < end_date
+          options['recurrents'] << event_params(event, 'weekly', current_date) unless weekly_event_day(event, current_date)
+          current_date += 7.day
         end
       end
     end
@@ -53,7 +56,16 @@ module Recurrents
     end
 
     def weekly_start(event, date)
+      start = event.start_time
+      start.to_s[0..9] == date.to_s[0..9] ? start + (start.wday - date.beginning_of_month.wday) : weekly_another_month(event, date)
+    end
+
+    def weekly_another_month(event, date)
       date.beginning_of_month + (event.start_time.wday - date.beginning_of_month.wday)
+    end
+
+    def weekly_event_day(event, current_date)
+      event.start_time.to_s[0..9] == current_date.to_s[0..9] || event.start_time > current_date
     end
 
     def check_month(event, date)

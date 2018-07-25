@@ -10,7 +10,6 @@ h5.text-center = message
 = month_calendar events: events do |date, events|
   .text-center
     = present('Events', local_assigns).another_month(date)
-    = present('Events', local_assigns).date_link(date, events)
-    == present('Events', local_assigns).event_count(date, events)
+    == present('Events', local_assigns).date_event(date, events)
     == present('Events', local_assigns).current_month(date, events)
     = present('Events', local_assigns).add_link(date)
